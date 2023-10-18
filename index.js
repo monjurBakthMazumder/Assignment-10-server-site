@@ -35,6 +35,12 @@ async function run() {
         res.send(result)
     })
 
+    app.post('/brand',async(req, res)=> {
+      const brand = req.body
+      const result = await brandCollection.insertOne(brand)
+      res.send(result)
+    })
+
     app.get('/products/:brand', async(req,res)=> {
       const brand = req.params.brand
       const filter = {brand: brand}
