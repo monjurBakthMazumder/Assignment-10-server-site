@@ -28,16 +28,11 @@ async function run() {
 
     const brandCollection = client.db("brandDB").collection("brand");
     const productCollection = client.db("brandDB").collection("product");
+    const orderCollection = client.db("brandDB").collection("order");
 
     app.get("/brand",async(req, res)=> {
         const result = await brandCollection.find().toArray()
         res.send(result)
-    })
-
-    app.post('/products', async(req, res)=> {
-      const product = req.body
-      const result = await productCollection.insertOne(product)
-      res.send(result)
     })
 
     app.get('/products/:brand', async(req,res)=> {
@@ -51,6 +46,12 @@ async function run() {
       const id = req.params.id
       const filter = {_id: new ObjectId(id)}
       const result = await productCollection.find(filter).toArray()
+      res.send(result)
+    })
+
+    app.post('/products', async(req, res)=> {
+      const product = req.body
+      const result = await productCollection.insertOne(product)
       res.send(result)
     })
 
@@ -71,6 +72,12 @@ async function run() {
         }
       }
       const result = await productCollection.updateOne(filter, updateProduct, options)
+      res.send(result)
+    })
+
+    app.post('/orders', async(req, res)=>{
+      const order = req.body
+      const result = await orderCollection.insertOne(order)
       res.send(result)
     })
 
